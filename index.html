@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sensor-Driven Violin Performance Capture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <header>
+        <p class="dept-line">Dept. of Software Engineering · University of Waterloo · Design Team No. 5</p>
+        <h1>SENSOR-DRIVEN VIOLIN<br>PERFORMANCE CAPTURE</h1>
+        <p class="authors">Rohan Shetty · Matthews Ma · Trevor Du · Kevin Gao · Zhifan Li</p>
+        <div class="header-links">
+            <a href="#dataset" class="btn">Dataset</a>
+            <a href="#paper" class="btn btn-outline">Paper (coming soon)</a>
+        </div>
+    </header>
+
+    <div class="banner">
+        <span class="banner-icon">ℹ</span>
+        The full dataset is not yet publicly available. Access requests and citation information will be posted here
+        upon release.
+    </div>
+
+    <main>
+
+        <section id="abstract">
+            <h2>ABSTRACT</h2>
+            <p>
+                Existing violin performance datasets fail to completely capture the intricate techniques
+                of musical expression. To address this gap, we built an <em>augmented violin system</em>
+                with a range of integrated sensors, yielding a <em>multimodal dataset</em> intended to
+                support research in music information retrieval. Our system captures audio, video, bow
+                pressure, bow tilt, bow and fingerboard position, violin/bow orientation, and room impulse
+                response simultaneously from ten advanced violinists performing studio-grade repertoire.
+            </p>
+            <p>
+                We further analyzed hardware-captured features to correct the state-of-the-art software
+                pitch transcription algorithm, resulting in highly accurate MIDI data that captures
+                <em>legato</em> bowing, bow speed, and contact point. Our dataset achieves a
+                <strong>62.8%</strong> improvement in note error rate over MUSC and a <strong>14.6%</strong>
+                relative reduction in perceived audio distance (Zimtohrli metric).
+            </p>
+        </section>
+
+        <section id="system">
+            <h2>AUGMENTED VIOLIN SYSTEM</h2>
+            <p>
+                The augmented violin integrates seven distinct sensor modalities directly onto a standard
+                concert violin and bow, with all data routed through a Raspberry Pi Pico 2W MCU mounted
+                on a custom protoboard.
+            </p>
+
+            <div class="figure-grid">
+                <figure>
+                    <div class="fig-placeholder">
+                        <span class="fig-label">Fig. 1 — Violin Body (Top)</span>
+                        <p class="fig-note">Place photo here: img/violin-top.jpg</p>
+                    </div>
+                    <figcaption>
+                        <strong>Violin body (top view).</strong> Four TSP-L touch sensors provide per-string
+                        finger position; an SR-04 ultrasonic sensor measures lateral bow position.
+                    </figcaption>
+                </figure>
+
+                <figure>
+                    <div class="fig-placeholder">
+                        <span class="fig-label">Fig. 2 — Violin Body (Bottom)</span>
+                        <p class="fig-note">Place photo here: img/violin-bottom.jpg</p>
+                    </div>
+                    <figcaption>
+                        <strong>Violin body (bottom view).</strong> A 9-DOF ICM-20948 IMU captures violin
+                        orientation and movement; the Raspberry Pi Pico 2W handles all data aggregation.
+                    </figcaption>
+                </figure>
+
+                <figure>
+                    <div class="fig-placeholder">
+                        <span class="fig-label">Fig. 3 — Violin Bow</span>
+                        <p class="fig-note">Place photo here: img/violin-bow.jpg</p>
+                    </div>
+                    <figcaption>
+                        <strong>Instrumented bow.</strong> Four VCNL 4010 proximity sensors measure bow
+                        pressure and location; a second 9-DOF IMU captures bow orientation. A PCA9546
+                        I²C multiplexer routes all sensors.
+                    </figcaption>
+                </figure>
+            </div>
+
+            <h3>Sensor Summary</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sensor</th>
+                        <th>Model</th>
+                        <th>Modality Captured</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Touch sensors (×4)</td>
+                        <td>TSP-L</td>
+                        <td>Per-string finger / fingerboard position</td>
+                    </tr>
+                    <tr>
+                        <td>Ultrasonic sensor</td>
+                        <td>SR-04</td>
+                        <td>Lateral bow position from bridge</td>
+                    </tr>
+                    <tr>
+                        <td>IMU — violin body</td>
+                        <td>ICM-20948 (9-DOF)</td>
+                        <td>Violin orientation &amp; movement</td>
+                    </tr>
+                    <tr>
+                        <td>IMU — bow</td>
+                        <td>ICM-20948 (9-DOF)</td>
+                        <td>Bow orientation &amp; movement</td>
+                    </tr>
+                    <tr>
+                        <td>Proximity sensors (×4)</td>
+                        <td>VCNL 4010</td>
+                        <td>Bow pressure &amp; contact location</td>
+                    </tr>
+                    <tr>
+                        <td>I²C multiplexer</td>
+                        <td>PCA9546</td>
+                        <td>Sensor bus arbitration</td>
+                    </tr>
+                    <tr>
+                        <td>MCU</td>
+                        <td>Raspberry Pi Pico 2W</td>
+                        <td>Data aggregation &amp; transmission</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="dataset">
+            <h2>DATASET</h2>
+            <p>
+                The dataset comprises 300 minutes of studio-grade solo classical violin recordings from
+                10 advanced violinists, annotated with synchronized sensor streams, audio, video, and
+                bow position labels.
+            </p>
+
+            <h3>Comparison with Existing Datasets</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dataset</th>
+                        <th>Performers</th>
+                        <th>Length</th>
+                        <th>Modalities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td><strong>Ours</strong></td>
+                        <td>10</td>
+                        <td>300 min</td>
+                        <td>Audio, Video, Positions, Fingering, Bow Pressure, IMU, …</td>
+                    </tr>
+                    <tr>
+                        <td>Violin Etudes<sup>*</sup></td>
+                        <td>21</td>
+                        <td>1668 min</td>
+                        <td>Audio</td>
+                    </tr>
+                    <tr>
+                        <td>URMP</td>
+                        <td>2</td>
+                        <td>80 min</td>
+                        <td>Audio, Video</td>
+                    </tr>
+                    <tr>
+                        <td>Bach10</td>
+                        <td>1</td>
+                        <td>5 min</td>
+                        <td>Audio</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="table-note"><sup>*</sup> Violin Etudes' data is heavily skewed towards performers 1 and 2.</p>
+
+            <h3>Access</h3>
+            <div class="access-box">
+                <p>
+                    The dataset will be released publicly upon paper acceptance. In the meantime, please
+                    contact the authors for access. Upon release, data will be hosted on Hugging Face and Kaggle.
+                </p>
+                <div class="access-badges">
+                    <span class="badge badge-inactive">🤗 Hugging Face — coming soon</span>
+                    <span class="badge badge-inactive">📊 Kaggle — coming soon</span>
+                </div>
+                <a href="mailto:rohan.shetty@uwaterloo.ca" class="btn" style="margin-top:1.2rem;">Request Access</a>
+            </div>
+        </section>
+
+        <!-- ─── RESULTS ──────────────────────────────────────────────── -->
+        <section id="results">
+            <h2>RESULTS</h2>
+
+            <div class="results-grid">
+                <div class="result-card">
+                    <span class="result-stat">62.8%</span>
+                    <span class="result-label">Improvement in note error rate over MUSC baseline</span>
+                </div>
+                <div class="result-card">
+                    <span class="result-stat">14.6%</span>
+                    <span class="result-label">Relative reduction in perceived audio distance (Zimtohrli)</span>
+                </div>
+                <div class="result-card">
+                    <span class="result-stat">31 mm</span>
+                    <span class="result-label">MAE for bow distance from bridge estimation</span>
+                </div>
+                <div class="result-card">
+                    <span class="result-stat">72 mm</span>
+                    <span class="result-label">MAE for bow contact point estimation</span>
+                </div>
+            </div>
+
+            <h3>Note Error Rate</h3>
+            <div class="bar-chart">
+                <div class="bar-row">
+                    <span class="bar-label">Ours</span>
+                    <div class="bar-track">
+                        <div class="bar bar-ours" style="width:37%"><span>15.37%</span></div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label">MUSC</span>
+                    <div class="bar-track">
+                        <div class="bar bar-musc" style="width:100%"><span>41.34%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Perceived Audio Distance (Zimtohrli)</h3>
+            <div class="bar-chart">
+                <div class="bar-row">
+                    <span class="bar-label">Ours</span>
+                    <div class="bar-track">
+                        <div class="bar bar-ours" style="width:87%"><span>0.0178</span></div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label">MUSC</span>
+                    <div class="bar-track">
+                        <div class="bar bar-musc" style="width:100%"><span>0.0205</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── CITATION ─────────────────────────────────────────────── -->
+        <section id="paper">
+            <h2>CITATION</h2>
+            <p>If you use this dataset in your research, please cite:</p>
+            <pre class="citation-block">@dataset{shetty2025violin,
+  title   = {Sensor-Driven Violin Performance Capture},
+  author  = {Shetty, Rohan and Ma, Matthews and Du, Trevor
+             and Gao, Kevin and Li, Zhifan},
+  year    = {2025},
+  note    = {University of Waterloo, Dept. of Software Engineering},
+  url     = {https://rohan-shettyy.github.io/violin-dataset}
+}</pre>
+        </section>
+
+        <section id="acknowledgements">
+            <h2>ACKNOWLEDGEMENTS</h2>
+            <p>
+                We greatly thank <strong>Professor Olga Vechtomova</strong> of the University of Waterloo
+                NLP Lab for her support as our faculty mentor. This study has been reviewed and received
+                ethics clearance through a University of Waterloo Research Ethics Board (REB #47874).
+            </p>
+        </section>
+
+    </main>
+
+    <footer>
+        <img src="images/uwaterloo_logo.png" alt="University of Waterloo" class="uw-logo" />
+        <p>Sensor-Driven Violin Performance Capture · University of Waterloo · 2025</p>
+    </footer>
+
+</body>
+
+</html>
