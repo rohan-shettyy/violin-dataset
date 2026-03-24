@@ -18,10 +18,10 @@
         <p class="dept-line">Dept. of Software Engineering · University of Waterloo · Design Team No. 5</p>
         <h1>SENSOR-DRIVEN VIOLIN<br>PERFORMANCE CAPTURE</h1>
         <p class="authors">Rohan Shetty · Matthews Ma · Trevor Du · Kevin Gao · Zhifan Li</p>
-        <div class="header-links">
+        <!-- <div class="header-links">
             <a href="#dataset" class="btn">Dataset</a>
             <a href="#paper" class="btn btn-outline">Paper (coming soon)</a>
-        </div>
+        </div> -->
     </header>
 
     <div class="banner">
@@ -54,8 +54,8 @@
         <section id="system">
             <h2>AUGMENTED VIOLIN SYSTEM</h2>
             <p>
-                The augmented violin integrates seven distinct sensor modalities directly onto a standard
-                concert violin and bow, with all data routed through a Raspberry Pi Pico 2W MCU mounted
+                The augmented violin integrates several distinct sensor modalities directly onto a
+                violin and bow, with all data routed through a Raspberry Pi Pico 2W MCU mounted
                 on a custom protoboard.
             </p>
 
@@ -78,7 +78,7 @@
                     </div>
                     <figcaption>
                         <strong>Violin body (bottom view).</strong> A 9-DOF ICM-20948 IMU captures violin
-                        orientation and movement; the Raspberry Pi Pico 2W handles all data aggregation.
+                        orientation and movement; the Raspberry Pi Pico 2W interfaces with sensors and the host machine.
                     </figcaption>
                 </figure>
 
@@ -88,27 +88,26 @@
                         <p class="fig-note">Place photo here: img/violin-bow.jpg</p>
                     </div>
                     <figcaption>
-                        <strong>Instrumented bow.</strong> Four VCNL 4010 proximity sensors measure bow
-                        pressure and location; a second 9-DOF IMU captures bow orientation. A PCA9546
-                        I²C multiplexer routes all sensors.
+                        <strong>Violin bow.</strong> Four VCNL 4010 proximity sensors measure bow
+                        pressure and location; a second 9-DOF ICM-20948 IMU captures bow orientation.
                     </figcaption>
                 </figure>
             </div>
 
-            <h3>Sensor Summary</h3>
+            <h3>HARDWARE SYSTEM SUMMARY</h3>
             <table>
                 <thead>
                     <tr>
                         <th>Sensor</th>
                         <th>Model</th>
-                        <th>Modality Captured</th>
+                        <th>Purpose</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>Touch sensors (×4)</td>
                         <td>TSP-L</td>
-                        <td>Per-string finger / fingerboard position</td>
+                        <td>Per-string finger position</td>
                     </tr>
                     <tr>
                         <td>Ultrasonic sensor</td>
@@ -117,12 +116,12 @@
                     </tr>
                     <tr>
                         <td>IMU — violin body</td>
-                        <td>ICM-20948 (9-DOF)</td>
+                        <td>ICM-20948</td>
                         <td>Violin orientation &amp; movement</td>
                     </tr>
                     <tr>
                         <td>IMU — bow</td>
-                        <td>ICM-20948 (9-DOF)</td>
+                        <td>ICM-20948</td>
                         <td>Bow orientation &amp; movement</td>
                     </tr>
                     <tr>
@@ -130,15 +129,15 @@
                         <td>VCNL 4010</td>
                         <td>Bow pressure &amp; contact location</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td>I²C multiplexer</td>
                         <td>PCA9546</td>
                         <td>Sensor bus arbitration</td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td>MCU</td>
                         <td>Raspberry Pi Pico 2W</td>
-                        <td>Data aggregation &amp; transmission</td>
+                        <td>Sensor interfacing &amp; data transmission</td>
                     </tr>
                 </tbody>
             </table>
@@ -152,7 +151,7 @@
                 bow position labels.
             </p>
 
-            <h3>Comparison with Existing Datasets</h3>
+            <h3>COMPARISON WITH EXISTING DATASETS</h3>
             <table>
                 <thead>
                     <tr>
@@ -167,31 +166,31 @@
                         <td><strong>Ours</strong></td>
                         <td>10</td>
                         <td>300 min</td>
-                        <td>Audio, Video, Positions, Fingering, Bow Pressure, IMU, …</td>
+                        <td>Audio, MIDI Transcriptions, Video, Positions, Fingering, etc.</td>
                     </tr>
                     <tr>
-                        <td>Violin Etudes<sup>*</sup></td>
-                        <td>21</td>
+                        <td>Violin Etudes</td>
+                        <td>21<sup>*</sup></td>
                         <td>1668 min</td>
-                        <td>Audio</td>
+                        <td>Audio, MIDI Transcriptions</td>
                     </tr>
                     <tr>
                         <td>URMP</td>
                         <td>2</td>
                         <td>80 min</td>
-                        <td>Audio, Video</td>
+                        <td>Audio, MIDI Transcriptions, Video</td>
                     </tr>
                     <tr>
                         <td>Bach10</td>
                         <td>1</td>
                         <td>5 min</td>
-                        <td>Audio</td>
+                        <td>Audio, MIDI Transcriptions</td>
                     </tr>
                 </tbody>
             </table>
             <p class="table-note"><sup>*</sup> Violin Etudes' data is heavily skewed towards performers 1 and 2.</p>
 
-            <h3>Access</h3>
+            <!-- <h3>Access</h3>
             <div class="access-box">
                 <p>
                     The dataset will be released publicly upon paper acceptance. In the meantime, please
@@ -202,7 +201,7 @@
                     <span class="badge badge-inactive">📊 Kaggle — coming soon</span>
                 </div>
                 <a href="mailto:rohan.shetty@uwaterloo.ca" class="btn" style="margin-top:1.2rem;">Request Access</a>
-            </div>
+            </div> -->
         </section>
 
         <!-- ─── RESULTS ──────────────────────────────────────────────── -->
@@ -262,7 +261,7 @@
         </section>
 
         <!-- ─── CITATION ─────────────────────────────────────────────── -->
-        <section id="paper">
+        <!-- <section id="paper">
             <h2>CITATION</h2>
             <p>If you use this dataset in your research, please cite:</p>
             <pre class="citation-block">@dataset{shetty2025violin,
@@ -273,7 +272,7 @@
   note    = {University of Waterloo, Dept. of Software Engineering},
   url     = {https://rohan-shettyy.github.io/violin-dataset}
 }</pre>
-        </section>
+        </section> -->
 
         <section id="acknowledgements">
             <h2>ACKNOWLEDGEMENTS</h2>
@@ -288,7 +287,7 @@
 
     <footer>
         <img src="images/uwaterloo_logo.png" alt="University of Waterloo" class="uw-logo" />
-        <p>Sensor-Driven Violin Performance Capture · University of Waterloo · 2025</p>
+        <p>Sensor-Driven Violin Performance Capture · University of Waterloo · 2026</p>
     </footer>
 
 </body>
